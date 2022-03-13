@@ -61,3 +61,80 @@ return (
   )
 ````
 ----
+### 2.- Navegar a Otras Pantallas
+En este punto se realizará las diferentes navegaciónes del Stack Navigator
+
+Paso a Seguir:
+* Implementar en las 3 pantallas diferentes navegaciones.
+
+En `screens/Pagina1Screen.tsx`
+* Se impoirta `StackScreenProps` para ayudar con el tipado con Typescript. 
+````
+import { StackScreenProps } from '@react-navigation/stack';
+...
+````
+* Se implementa un __interface__ que extendera el elemento `StackScreenProps`.
+````
+interface Props extends StackScreenProps<any, any>{};
+````
+* Se le agrega el tipado a lo que se recibe por las props.
+* Se le agrega un estilo al __View__.
+* En el boton se le agrega lo que se recibe por las props, para enviarlo a la pantalla `Pagina2Screen`.
+````
+export const Pagina1Screen = ( { navigation }: Props ) => {
+  return (
+    <View style={ styles.globalMargin }>
+        <Text> Pagina1Screen </Text>
+
+        <Button 
+          title='Ir Página 2'
+          onPress={ () => navigation.navigate('Pagina2Screen') }
+        />
+    </View>
+  )
+}
+````
+En `screens/Pagina2Screen.tsx`
+* Se importa el __useNavigation__ con `CommonActions`.
+````
+import { CommonActions, useNavigation } from '@react-navigation/native';
+...
+````
+* Se utiliza el customHook __useNavigation__.
+* Se utiliza en el __Botton__ el hook para realizar la navegación, [aquí se puede ver un ejemplo](https://reactnavigation.org/docs/use-navigation/#example).
+````
+const navigator = useNavigation();
+
+  return (
+    <View style={ styles.globalMargin }>
+        <Text> Pagina2Screen </Text>
+
+        <Button 
+          title="ir Página 3"
+          onPress={ () => navigator.dispatch(CommonActions.navigate({name: 'Pagina3Screen'})) }
+        />
+    </View>
+  )
+````
+En `screens/Pagina3Screen.tsx`
+* Se importa `StackScreenProps` para tener ayuda de tipado.
+````
+...
+import { StackScreenProps } from '@react-navigation/stack';
+````
+* Se implementa una __interface__ para tener el tipado con ayuda de __StackScreenProps__.
+````
+interface Props extends StackScreenProps<any, any>{};
+````
+* Se implementan 2 nuevos botones uno con `navigation.pop()` que destruira la pantalla y el otro boton con `navigation.popToTop()` que volverá al inicio 
+````
+<Button 
+  title='Regresar'
+  onPress={ () => navigation.pop() }
+/>
+<Button 
+  title='Ir al Home'
+  onPress={ () => navigation.popToTop() }
+/>
+````
+----
