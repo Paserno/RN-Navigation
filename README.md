@@ -220,6 +220,7 @@ export const PersonaScreen = ( { route, navigation }:Props) => {...}
 ````
 * Guardamos en una constante lo que viene en `route.params`.
 * Se implementa un __useEffect__ con ninguna dependencia, se utiliza `navigation.setOptions` para agregar un titulo al header.
+* Se utiliza el signo de __"!"__ exlamación para forzar el tipado `params!.nombre`.
 ````
 const params = route.params;
 
