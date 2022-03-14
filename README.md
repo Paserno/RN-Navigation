@@ -4,7 +4,7 @@ Esta es una aplicación hecha con React Native, que establece diferentes tipos d
 
 Elementos utilizados:
 * __[React Navigation](https://reactnavigation.org/docs/getting-started)__
-
+  * __[Stack Navigation](https://reactnavigation.org/docs/native-stack-navigator/)__
 ----
 Recordar que si se desea ejecutar esta aplicación, deben de reconstruir los módulos de node así:
 ````
