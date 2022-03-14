@@ -182,3 +182,64 @@ useEffect(() => {
   }, [])
 ````
 ----
+### 4.- Enviar Argumentos entre Pantallas
+En este punto se creará una pantalla nueva donde recibirá argumentos.
+
+Pasos a Seguir: 
+* La pantalla __Pagina1Screen__ se modifica para enviar argumentos.
+* Se crea una nueva pantalla.
+* Se establece la nueva pantalla agregada en el __StackNavigator__.
+
+En `screens/Pagina1Scren.tsx`
+* Se importa un nuevo elemento a utilizar.
+````
+...
+import { TouchableOpacity } from 'react-native-gesture-handler';
+````
+* Se implementa el boton `TouchableOpacity` que enviará los argumentos a la otra pantalla, con `navigation.navigate` enviando un segundo argumento.
+````
+<Text>Navegar con Argumentos</Text>
+
+<TouchableOpacity 
+  onPress={ () => navigation.navigate('PersonaScreen', {
+    id: 1,
+    nombre: 'pedro'
+  }) }
+> 
+  <Text>Pedro</Text>
+</TouchableOpacity>
+````
+En `screens/PersonaScren.tsx`
+* Se implementa una `interface` que extiende `StackScreenProps`.
+````
+interface Props extends StackScreenProps<any, any>{};
+````
+* Se desestructura por los parametros el `route` y `navigation`. 
+````
+export const PersonaScreen = ( { route, navigation }:Props) => {...}
+````
+* Guardamos en una constante lo que viene en `route.params`.
+* Se implementa un __useEffect__ con ninguna dependencia, se utiliza `navigation.setOptions` para agregar un titulo al header.
+````
+const params = route.params;
+
+useEffect(() => {
+    navigation.setOptions({
+        title: params!.nombre,
+    })
+}, [])
+````
+* Se retorna lo recibido por los parametros.
+````
+return (
+  <View style={ styles.globalMargin }>
+      <Text style={ styles.title }>{JSON.stringify(params, null, 3)}</Text>
+  </View>
+)
+````
+En `navigator/StackNavigator.tsx`
+* Se agrega la nueva pantalla en el __StackNavigator__.
+````
+<Stack.Screen name="PersonaScreen" options={{ title:'Persona'}} component={PersonaScreen} />
+````
+----
