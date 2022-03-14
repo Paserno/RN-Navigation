@@ -138,3 +138,47 @@ interface Props extends StackScreenProps<any, any>{};
 />
 ````
 ----
+### 3.- Estilizando el Stack Navigator
+En este punto se realizará unos cambios visuales para que se vea mas actual la aplicación.
+
+Pasos a Seguir: 
+* Agregar algunos estilos en las 3 Screen.
+* Personalizar el __StackNavigator__.
+
+En `navigator/StackNavigator.tsx`
+* Se personaliza el header con `screenOptions`.
+  * Se puede agregar una ruta principal con `initialRouteName`.
+  * Se puede eliminar el header con `headerShown` en false.
+  * En esta ocasión se agregará `headerStyle` para agregar estilos a la header, en este punto se usará `elevation` en 0, para no mostrar la linea divisora y `shadowColor` en el casos de IOS.
+  * Ademas usa `cardStyle` para cambiar el color con `backgroundColor` de las cartas que conteiene el contenido.
+````
+<Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent' // Para IOS
+        },
+        cardStyle: {
+          backgroundColor: 'white'
+        }
+      }}
+    >
+````
+* Agregamos la propiedad `options` que cambiará los titulos en los headers.
+````
+<Stack.Screen name="Pagina1Screen" options={{ title:'Página 1'}} component={ Pagina1Screen} />
+<Stack.Screen name="Pagina2Screen" options={{ title:'Página 2'}} component={Pagina2Screen} />
+<Stack.Screen name="Pagina3Screen" options={{ title:'Página 3'}} component={Pagina3Screen} />
+````
+En `screens/Pagina2Screen.tsx`
+* Se usará un __useEffect__ que se ejecutará cuando se inicie el compoente.
+* Con ayuda del CustomHook __useNavigation__ se utiliza la propiedad `navigator.setOptions`, que en este caso cambiaremos el titulo y en IOS se usa `headerBackTitle` para agregar un mensaje en el boton "back".
+````
+useEffect(() => {
+    navigator.setOptions({
+      title: 'Hola Mundo',
+      headerBackTitle: 'Atras' //para tener un back en IOS
+    })
+  }, [])
+````
+----
