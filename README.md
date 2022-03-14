@@ -244,3 +244,76 @@ En `navigator/StackNavigator.tsx`
 <Stack.Screen name="PersonaScreen" options={{ title:'Persona'}} component={PersonaScreen} />
 ````
 ----
+### 5.- Tipado de Argumento.
+Exsiten 2 tipodos de formas de hacer un tipado en este punto, una crear una interface en la propia pantalla que recibira los datos, o crearlo en el __StackNavigator__.
+
+Pasos a Seguir:
+* Se crea el tipado en el __StackNavigator__.
+* Se modifica la pantalla de __PersonaScreen__.
+* Se agrega otro botón en la pantalla __Pagina1Screen__, para enviarle argumentos a otra pantalla, ademas de algunos estilos.
+
+En `navigator/StackNavigator.tsx`
+* Se agrega un `type` con su nombre, y se define los elementos de cada pantalla, en este caso solo __PersonaScreen__ recibirá argumentos.
+* Este `type` se lo agregamos al Stack.
+````
+export type RootStackParams = {
+  Pagina1Screen: undefined,
+  Pagina2Screen: undefined,
+  Pagina3Screen: undefined,
+  PersonaScreen: { id: number, nombre: string },
+}
+
+const Stack = createStackNavigator<RootStackParams>();
+````
+En `screens/PersonaScreen.tsx`
+* Se importa el tipado que viene del __StackNavigator__.
+````
+...
+import { RootStackParams } from '../navigator/StackNavigator';
+````
+* Se agrega el tipado en la _interface_ extendida `<RootStackParams, 'PersonaScreen'>`.
+````
+interface Props extends StackScreenProps<RootStackParams, 'PersonaScreen'>{};
+````
+* Se elimina el signo de exclamación "!" que tenía `params.nombre`.
+````
+useEffect(() => {
+    navigation.setOptions({
+        title: params.nombre,
+    })
+}, [])
+````
+En `screens/Pagina1Screen.tsx`
+* Se agrega un __View__ con un estilo `flexDirection: 'row'` para mostrar los botones.
+* Se agrega un nuevo botón `TouchableOpacity` que se le pasará nuevos parametros y con estilos incluidos, colores diferentes en los botones para identificarlos.
+* Se agrega unos estilos a los texto del botón para darle mayor personalización.
+````
+<View style={{ flexDirection: 'row'}}>
+  <TouchableOpacity
+    style={{ 
+      ...styles.botonGrande,
+      backgroundColor: '#5856D6'
+    }}
+    onPress={() => navigation.navigate('PersonaScreen', {
+      id: 1,
+      nombre: 'Pedro'
+    })}
+  >
+    <Text style={ styles.botonGrandeText }>Pedro</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={{ 
+      ...styles.botonGrande,
+      backgroundColor: '#BB1BE0'
+    }}
+    onPress={() => navigation.navigate('PersonaScreen', {
+      id: 2,
+      nombre: 'Maria'
+    })}
+  >
+    <Text style={ styles.botonGrandeText }>Maria</Text>
+  </TouchableOpacity>
+</View>
+````
+----

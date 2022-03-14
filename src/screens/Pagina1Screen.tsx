@@ -10,24 +10,42 @@ export const Pagina1Screen = ( { navigation }: Props ) => {
 
   return (
     <View style={ styles.globalMargin }>
-        <Text style={ styles.title }> Pagina1Screen </Text>
+      <Text style={ styles.title }> Pagina1Screen </Text>
 
-        <Button 
-          title='Ir Página 2'
-          onPress={ () => navigation.navigate('Pagina2Screen') }
-        />
+      <Button
+        title='Ir Página 2'
+        onPress={() => navigation.navigate('Pagina2Screen')}
+      />
 
-        <Text>Navegar con Argumentos</Text>
+      <Text>Navegar con Argumentos</Text>
 
-        <TouchableOpacity 
-          onPress={ () => navigation.navigate('PersonaScreen', {
+      <View style={{ flexDirection: 'row'}}>
+        <TouchableOpacity
+          style={{ 
+            ...styles.botonGrande,
+            backgroundColor: '#5856D6'
+          }}
+          onPress={() => navigation.navigate('PersonaScreen', {
             id: 1,
-            nombre: 'pedro'
-          }) }
-        > 
-          <Text>Pedro</Text>
+            nombre: 'Pedro'
+          })}
+        >
+          <Text style={ styles.botonGrandeText }>Pedro</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          style={{ 
+            ...styles.botonGrande,
+            backgroundColor: '#BB1BE0'
+          }}
+          onPress={() => navigation.navigate('PersonaScreen', {
+            id: 2,
+            nombre: 'Maria'
+          })}
+        >
+          <Text style={ styles.botonGrandeText }>Maria</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
