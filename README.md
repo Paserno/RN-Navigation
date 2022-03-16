@@ -5,6 +5,11 @@ Esta es una aplicación hecha con React Native, que establece diferentes tipos d
 Elementos utilizados:
 * __[React Navigation](https://reactnavigation.org/docs/getting-started)__
   * __[Stack Navigation](https://reactnavigation.org/docs/native-stack-navigator/)__
+  * __[Drawer Navigator](https://reactnavigation.org/docs/drawer-navigator/)__
+
+
+Solución Problema.
+* __[React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/)__ En uso de __Drawer Navigator__
 ----
 Recordar que si se desea ejecutar esta aplicación, deben de reconstruir los módulos de node así:
 ````
@@ -315,5 +320,49 @@ En `screens/Pagina1Screen.tsx`
     <Text style={ styles.botonGrandeText }>Maria</Text>
   </TouchableOpacity>
 </View>
+````
+----
+### 6.- Configurar Drawer 
+En este punto se realizará la configuración del Drawer que se utilizará.
+
+Pasos a Seguir: 
+* Se instala __[Drawer](https://reactnavigation.org/docs/drawer-navigator/)__.
+* En `navigator/` se crea un nuevo archivo donde tendrá la configuración del drawer.
+* Se modifica __App__ para el manejo del nuevo Menu lateral.
+
+En `navigator/MenuLateralBasico.tsx`
+* Se implementa la __[Configuración](https://reactnavigation.org/docs/drawer-navigator/#api-definition)__ que se encuentra en la documentación.
+* Importamos diferentes elementos como __React__, `createDrawerNavigator` de la documentación y los elementos que se utilizarán.
+````
+import React from 'react';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { StackNavigator } from './StackNavigator';
+import { SettingsScreen } from '../screens/SettingsScreen';
+````
+* Implementamos el `StackNavigator` y  `SettingsScreen` que es un nuevo componente.
+````
+const Drawer = createDrawerNavigator();
+
+export const MenuLateralBasico = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="StackNavigator" component={ StackNavigator } />
+      <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
+    </Drawer.Navigator>
+  );
+}
+````
+En `App.tsx`
+* Se importa el nuevo elemento implementado.
+````
+import { MenuLateralBasico } from './src/navigator/MenuLateralBasico';
+````
+* Y se agrega en el return de __App__.
+````
+return (
+    <NavigationContainer>
+      <MenuLateralBasico />
+    </NavigationContainer>
+  )
 ````
 ----
