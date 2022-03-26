@@ -366,3 +366,55 @@ return (
   )
 ````
 ----
+### 7.- Mostrar / Ocultar - Drawer
+En este punto se utilizará el tamaño de la pantalla para mostrar la navegación lateral, para verificar si esta el teléfono horizontal o vertical.
+
+Pasos a Seguir:
+* Se crea un botón para abrir el Drawer en `screens/Pagina1Screen.tsx`.
+* Se agrega la configuración en el navigator llamado `MenuLateralBasico.tsx`, para que detecte si la pantalla esta horizontal o Vertical.
+
+En `screens/Pagina1Screen.tsx`
+* Se crea un __useEffect__ con ninguna dependencia para cuando se realize la compilación del componente se ejecute.
+* Se utiliza `navigation.setOptions`, donde en la parte superior de la vista se crea un botón.
+  * Este botón tendrá la opción de abrir el Drawer.
+````
+useEffect(() => {
+  navigation.setOptions({
+    headerLeft: () => (
+    <Button
+      title='Menú'
+      onPress={ () => navigation.toggleDrawer() }
+    />
+    ) 
+  })
+    
+  }, [])
+````
+En `navigator/MenuLateralBasico.tsx`
+* Importamos `useWindowDimensions`.
+* Extraemos la propiedad `width` de __useWindowDimensions__.
+````
+const { width } = useWindowDimensions();
+````
+* Le agregamos propiedades al __Drawer Navigator__ con `screenOptions`.
+* Utilizando el width de `useWindowDimensions()`, realizamos una validación, en el caso que la pantalla sea mayor o igual a `768`, se mostrara siempre el drawer lateral.
+* Al igual con `headerShown` realizamos una condición, para no mostrar el __Header__ o mostrarlo.
+* Ademas de otros elementos para que se muestre de una forma mas estilizado.
+````
+<Drawer.Navigator
+  screenOptions={{
+    drawerType: width >= 768 ? 'permanent' : 'front',
+    headerShown: width >= 768 ? false : true,
+    headerStyle: {
+      elevation: 0,
+      shadowColor: 'transparent' // Para IOS
+    },
+    drawerStyle: {
+        width:  width >= 768 ? 180 : 250
+    }
+}}
+>
+...
+</Drawer.Navigator>
+````
+----
