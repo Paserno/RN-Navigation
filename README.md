@@ -470,3 +470,52 @@ avatar: {
 }
 ````
 ----
+### 9.- Navegación del Menú Lateral
+En este punto se realizará la navegación hacia los diferentes componentes.
+
+Pasos a Seguir:
+* Se Creará nuevos botones en __MenuInterno__, que permitirá la navegación.
+* Se agregaran algunos estilos.
+
+En `navigator/MenuLateral.tsx`
+* Los props los desestructuramos y se extrae `navigation`.
+````
+const MenuInterno = ( { navigation }: DrawerContentComponentProps) => { ... }
+````
+* En el __MenuInterno__ dentro del `<DrawerContentScrollView>`, abajo de la imagen se agregará un __View__ con el contenido.
+* Principalmente se crea 2 botones con `<TouchableOpacity>` que hará la redirección.
+* Se agregaran algunos estilos al `View`, `TouchableOpacity` y el `Text`.
+````
+<View style={ styles.menuContainer }>
+    
+  <TouchableOpacity 
+    style={ styles.menuBoton}
+    onPress={ () => navigation.navigate('StackNavigator') }
+  >
+    <Text style={ styles.menuTexto }>Navegación</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity 
+    style={ styles.menuBoton}
+    onPress={ () => navigation.navigate('SettingsScreen') }
+  >
+    <Text style={ styles.menuTexto }>Ajustes</Text>
+  </TouchableOpacity>
+
+</View>
+````
+En `theme/appTheme.tsx`
+* Se crean 3 nuevos estilos.
+````
+menuContainer: {
+    marginVertical: 30,
+    marginHorizontal: 30,
+},
+menuBoton: {
+    marginVertical: 10,
+},
+menuTexto: {
+    fontSize:20
+},
+````
+----
