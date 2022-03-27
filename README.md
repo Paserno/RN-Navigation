@@ -418,3 +418,55 @@ const { width } = useWindowDimensions();
 </Drawer.Navigator>
 ````
 ----
+### 8.- Drawer Personalizado
+En este punto lo que se hará es personalizar el menú lateral, a elección.
+
+Pasos a Seguir:
+* Duplicar `MenuLateralBasico.tsx` y a la copia agregarle el nombre de `MenuLateral.tsx` esto en la 📂carpeta `navigator/`.
+* En `navigator/MenuLateral.tsx` se agrega una nuevo componente llamado `MenuInterno`, donde tendra el contenido del Menú Lateral.
+* Se agregan algunos estilos en `theme/appTheme.tsx`.
+
+En `navigator/Menulatera.tsx`
+* Agregamos `drawerContent` que es una función que permite personalizar el Drawer.
+  * Se utiliza los __props__, para luego le pasamos todos los argumentos de `props` al componente que se creará, llamado `MenuInterno`.
+````
+<Drawer.Navigator
+  drawerContent={ (props) => <MenuInterno { ...props }/>}
+  ...
+>
+</Drawer.Navigator>
+````
+* A bajo del componente __MenuLateral__, se crea el componente __MenuInterno__ que recibirá por parametro las __props__ y de tipado importamos `DrawerContentComponentProps`.
+* Realizamos un return que devolverá varios elementos, estos elementos los encerramos en un `<DrawerContentScrollView>`.
+  * Con un view que tendra estilos y una imagen.
+````
+const MenuInterno = ( props: DrawerContentComponentProps) => {
+
+  return (
+    <DrawerContentScrollView>
+      <View style={ styles.avatarContainer }>
+        <Image
+          source={{
+            uri: 'https://gladstoneentertainment.com/wp-content/uploads/2018/05/avatar-placeholder.gif'
+          }}
+          style={ styles.avatar }
+        />
+      </View>
+    </DrawerContentScrollView>
+    );
+}
+````
+En `theme/appTheme`
+* Agregamos 2 nuevos estilos, el primero `avatarContainer` el cual haremos un centrado del contenido y con un margen, el segunod `avatar` dará el tamaño a la imagen con una forma circular.
+````
+avatarContainer: {
+    alignItems: 'center',
+    marginTop: 20
+},
+avatar: {
+    width: 150,
+    height: 150,
+    borderRadius: 100
+}
+````
+----
