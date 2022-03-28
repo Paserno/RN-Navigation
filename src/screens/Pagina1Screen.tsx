@@ -25,14 +25,20 @@ export const Pagina1Screen = ( { navigation }: Props ) => {
 
   return (
     <View style={ styles.globalMargin }>
-      <Text style={ styles.title }> Pagina1Screen </Text>
+      <Text style={ styles.title }>Pagina1Screen </Text>
 
       <Button
         title='Ir Página 2'
         onPress={() => navigation.navigate('Pagina2Screen')}
       />
 
-      <Text>Navegar con Argumentos</Text>
+      <Text style={{ 
+        marginVertical: 20,
+        fontSize: 18,
+        // marginLeft: 7
+       }}>
+         Navegar con Argumentos
+      </Text>
 
       <View style={{ flexDirection: 'row'}}>
         <TouchableOpacity

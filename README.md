@@ -519,3 +519,28 @@ menuTexto: {
 },
 ````
 ----
+### 10.- Bonus: useSafeAreaInserts
+Se utilizará un Hook para evitar tener problemas con el notch de los teléfonos iphone, ya que tienen la camara en una posición no favorable en algunos casos, para esto se utilizará `useSafeAreaInserts`.
+
+Pasos a Seguir:
+* Se agrega el Hook en `screens/SettingsScreen.tsx`.
+
+En `screens/SettingsScreen.tsx`
+* Se importa `useSafeAreaInsets`.
+* Se le agrega algunos estilos, ademas de un `marginTop: insets.top + 20` para no tener problemas con el __notch de los iPhones__.
+````
+export const SettingsScreen = () => {
+
+  const insets = useSafeAreaInsets();
+
+  return (
+      <View style={{
+          ...styles.globalMargin,
+          marginTop: insets.top + 20
+          }}>
+          <Text style={ styles.title }>Settings Screen</Text>
+      </View>
+  )
+}
+````
+----
