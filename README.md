@@ -7,6 +7,9 @@ Elementos utilizados:
   * __[Stack Navigation](https://reactnavigation.org/docs/native-stack-navigator/)__
   * __[Drawer Navigator](https://reactnavigation.org/docs/drawer-navigator/)__
 
+  * __[Botton Tabs Navigator](https://reactnavigation.org/docs/bottom-tab-navigator/)__
+  
+
 
 Solución Problema.
 * __[React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/)__ En uso de __Drawer Navigator__
@@ -542,5 +545,70 @@ export const SettingsScreen = () => {
       </View>
   )
 }
+````
+----
+# Elementos de Navegación Tabs
+En este punto se veran diferentes navegaciónes relacionadas al Tabs.
+
+Elementos a utilizar
+* __[Botton Tabs Navigator](https://reactnavigation.org/docs/bottom-tab-navigator/)__
+
+----
+### 1.- Crear el BottomTabNavigator
+En este punto se realizará la instalación de __[Tabs Navigator](https://reactnavigation.org/docs/bottom-tab-navigator/#installation)__, para luego implementarlo.
+
+Pasos a Seguir:
+* Realizar la instalación de __Bottom Tabs Navigator__.
+* Se crean 3 screens que seran usadas por los __Bottom Tabs__. 
+* Crear un archivo en `navigator/Tabs.tsx` donde se hara la configuración para mostrar los elementos Tabs.
+* Agregar componente __Tabs__ en `navigator/MenuLateral.tsx`.
+
+En `screens/Tab1Screen.tsx`
+* Se crea un componente basico que será utilizado por la configuración de __Bottom Tabs__, para luego ser mostrado, esto se replica 3 veces, para tener 3 componentes que se mostrarán.
+````
+import React from 'react'
+import { View, Text } from 'react-native';
+
+export const Tab1Screen = () => {
+  return (
+    <View>
+        <Text> Tab1Screen </Text>
+    </View>
+  )
+}
+````
+En `navigator/Tabs.tsx`
+* Se copia lo que sale en la documentación y ademas agregamos los componentes recien creados.
+* Se agregan los componentes screens en `<Tab.Navigator>`, para que sean mostrado.
+````
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Tab1Screen } from '../screens/Tab1Screen';
+import { Tab2Screen } from '../screens/Tab2Screen';
+import { Tab3Screen } from '../screens/Tab3Screen';
+
+const Tab = createBottomTabNavigator();
+
+export const Tabs = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Tab1Screen" component={Tab1Screen} />
+      <Tab.Screen name="Tab2Screen" component={Tab2Screen} />
+      <Tab.Screen name="Tab3Screen" component={Tab3Screen} />
+    </Tab.Navigator>
+  );
+}
+````
+En `navigator/MenuLateral.tsx`
+* Se importa el componente __Tabs__.
+````
+import { Tabs } from './Tabs';
+````
+* En el return de __MenuLateral__ se agrega el __Tabs Navigator__.
+````
+<Drawer.Navigator>
+  <Drawer.Screen name="Tabs" component={ Tabs } />
+  ...
+</Drawer.Navigator>
 ````
 ----
