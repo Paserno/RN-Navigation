@@ -612,3 +612,53 @@ import { Tabs } from './Tabs';
 </Drawer.Navigator>
 ````
 ----
+### 2.- Personalizar BottomTabsNavigator
+En este punto se agregaron algunos estilos a los __Tabs Navigator__.
+
+Pasos a Seguir:
+* Se agregaron __useEffect__ en los componentes screens de los Tabs Navigator.
+* Se utilizaron algunos estilos propios en el componente __Tabs__ para estilizar los botones Tabs.
+
+En `screens/Tab1Screen.tsx`
+* En cada componente se agrego el useEffect para ver como es llamado el __Tab Navigator__, se logro ver que los Tabs solo son renderizados la primera vez, luego se mantienen cargados.
+````
+useEffect(() => {
+    console.log('Tab1Screen effect')
+
+  }, [])
+````
+En `navigator/Tabs.tsx`
+* Se importan 2 nuevos elementos, el primero el __StackNavigator__ de la sección pasada y unos estilos nuevos, para el manejo de colores.
+````
+...
+import { StackNavigator } from './StackNavigator';
+import { colores } from '../theme/appTheme';
+````
+* Se Agregaron algunos estilos al Tab Navigator, utilizando algunas de sus propiedades.
+  * Con `sceneContainerStyle` estilizamos el contenido del screen, `backgroundColor` agregandole un color blanco.
+* Con `screenOptions` agregamos todos los estilos adicionales.
+  * Con `tabBarInactiveTintColor` y `tabBarActiveTintColor` se le agrega color a los iconos y etiquetas.
+  * `tabBarActiveBackgroundColor` color en el fondo cuando el tab esta seleccionado.
+  * `tabBarStyle` Con este elemento se estiliza la barra del Tab, agregandole alguos bordes o elementos personalizados.
+````
+<Tab.Navigator
+  sceneContainerStyle={{
+    backgroundColor: 'white'
+  }}
+
+  screenOptions={{
+    tabBarActiveTintColor: 'white',
+    tabBarInactiveTintColor: 'white',
+    tabBarActiveBackgroundColor: colores.primary,
+  
+    tabBarStyle: {
+      
+      borderTopColor: colores.primary,
+      borderTopWidth: 0,
+      backgroundColor: colores.mate,
+      elevation: 0,
+      },
+  }}  
+>
+````
+----
