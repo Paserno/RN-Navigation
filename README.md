@@ -7,7 +7,8 @@ Elementos utilizados:
   * __[Stack Navigation](https://reactnavigation.org/docs/native-stack-navigator/)__
   * __[Drawer Navigator](https://reactnavigation.org/docs/drawer-navigator/)__
 
-  * __[Botton Tabs Navigator](https://reactnavigation.org/docs/bottom-tab-navigator/)__
+  * __[Bottom Tabs Navigator](https://reactnavigation.org/docs/bottom-tab-navigator/)__
+  * __[Material Bottom Tab Navigator](https://reactnavigation.org/docs/material-bottom-tab-navigator)__ _(OPCIONAL)_
   
 
 
@@ -702,5 +703,97 @@ tabBarIcon : ({color, focused, size})  => {
 
   return <Text style={{color}}>{ iconName }</Text>
 },
+````
+----
+### 4.- Material Bottom Tab Navigator
+En este punto se utilizará un nuevo __Bottom Tab Navigator__, este solo se mostrará en Android, este elemento se vera mejor visualmente.
+
+Pasos a Seguir: 
+* Instalar __[Material Bottom Tab Navigator](https://reactnavigation.org/docs/material-bottom-tab-navigator)__.
+* Se adaptara `navigator/Tabs.tsx` para poder recibir el nuevo __Bottom Tab__.
+
+En `navigator/Tabs.tsx`
+* Se importan 3 elementos nuevos.
+  * `createMaterialBottomTabNavigator` para crear el nuevo Bottom Tab.
+  * `MaterialCommunityIcons` para probar con los icons que viene.
+  * `Platform` de __React Native__ para detectar en que dispositivo se esta corriendo la aplicación.
+````
+...
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Platform, Text } from 'react-native';
+````
+* Se crea la función `Tabs` _(renombrando las otras funciones)_.
+* Se retorna una condición ternaria, en el caso que `Platform.OS` sea igual a ios, se mostrará el componente `<TabsIOS />` _(el cual se renombro, antes era Tabs)_ y para android el elemento que se creará a continuación.
+````
+export const Tabs = () => {
+
+  return Platform.OS === 'ios'
+          ? <TabsIOS />
+          : <TabsAndroid />
+}
+````
+* Se crea el nuevo Bottom Tabs, que viene de la nueva instalación, esta función la llamaremos `TabsAndroid`.
+````
+const BottomTabAndroid = createMaterialBottomTabNavigator();
+
+const TabsAndroid = () => {...}
+````
+* Aquí mostramos el return de la función `TabsAndroid`.
+* Le agregamos algunas propiedades al `<BottomTabAndroid.Navigator>`, como el color al activarse, el color cuando esta inactivo y un color de fondo general pero principalmente se agrega una propiedad para que pueda funciónar la animación de coloreado del fondo, el cual se verá muy bien, esta es `shifting` en `true`, sin esta propiedad no funcionará el coloreado del fondo _(backgroundColor)_.
+* Ahora en los 3 `<BottomTabAndroid.Screen>` agregamos las mismas propiedades con colores diferentes para ver la animación del __Material Bottom Tabs__, estas son las siguientes.
+  * `name` esta va asociada al nombre de la navegación o pantalla asociada.
+  * `component` es el componente al cual se ira a navegar.
+  * `options` se utiliza `tabBarLabel` para el texto que saldrá en la etiqueta, `tabBarColor` para el color de fondo cuando este activo el Tab y finalmente el `tabBarIcon` que recibe por parametros `{color}` aquí mostrará el icono, en este caso se puso uno por defecto.
+````
+return (
+  <BottomTabAndroid.Navigator
+    activeColor="#f0edf6"
+    inactiveColor= "#694fab"
+    barStyle={{ backgroundColor: '#694fab' }}
+    shifting={true}
+  >
+    <BottomTabAndroid.Screen 
+      name="Tab1Screen" 
+      component={Tab1Screen}
+      options={{
+        tabBarLabel: 'Tab1',
+        tabBarColor: '#009387',
+        tabBarIcon: ({color}) => (
+          <MaterialCommunityIcons name='home' color={color}  size={20}/>
+        ),
+      }}  
+    />
+    <BottomTabAndroid.Screen 
+      name="Tab2Screen" 
+      component={Tab2Screen}
+      options={{
+        title: 'Tab2',
+        tabBarColor: '#694FAB',
+        tabBarIcon: ({color}) => (
+          <MaterialCommunityIcons name='home' color={color}  size={20}/>
+        ),
+      }}  
+    />
+    <BottomTabAndroid.Screen 
+      name="StackNavigator" 
+      component={StackNavigator}
+      options={{
+        title: 'Stack',
+        tabBarColor: '#131313',
+        tabBarIcon: ({color}) => (
+          <MaterialCommunityIcons name='home' color={color}  size={20}/>
+        ),
+      }}  
+    />
+  
+  </BottomTabAndroid.Navigator>
+  );
+````
+* Mencionar que estos elementos se les cambio el nombre, antes `BottomTabIOS` llamandose `Tabs` y la función `TabsIOS` tambien llamandoce antes `Tabs`. 
+````
+const BottomTabIOS = createBottomTabNavigator();
+
+const TabsIOS = () => {...}
 ````
 ----
