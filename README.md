@@ -662,3 +662,45 @@ import { colores } from '../theme/appTheme';
 >
 ````
 ----
+### 3.- Prepara Iconos BottomTabsNavigator
+En este punto se preparo el codigo donde estará los icons.
+
+Pasos a Seguir:
+* En el Tabs Navigator se modifico para implementar los iconos del __Tabs Navigator__.
+
+En `navigator/Tabs.tsx`
+* Se recibe por parametros `{ route }`, para detectar en que ruta esta el __Tabs Navigator__, esto se utilizará posteriormente.
+````
+<Tab.Navigator
+  screenOptions={ ({ route }) => ({
+    ... )}
+>
+````
+* Se agrega `tabBarIcon` el cual se desestructura en diferentes elementos `{color, focused, size}`.
+* Creamos una variable llamada `iconName`, ademas de un __switch__ el cual detectará el nombre de la ruta con `route.name`.
+* Finalmente retornamos un `<Text>` con los estilos y el valor que nos entrega el __Switch__.
+````
+tabBarIcon : ({color, focused, size})  => {
+
+  let iconName: string = '';
+
+  switch (route.name) {
+    
+    case 'Tab1Screen':
+      iconName = 'T1'
+      break;
+    case 'Tab2Screen':
+      iconName = 'T2'
+      break;
+    case 'StackNavigator':
+      iconName = 'ST'
+      break;
+  
+    default:
+      break;
+  }
+
+  return <Text style={{color}}>{ iconName }</Text>
+},
+````
+----
