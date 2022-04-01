@@ -5,11 +5,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 
 import { Tab1Screen } from '../screens/Tab1Screen';
-import { Tab2Screen } from '../screens/Tab2Screen';
+// import { Tab2Screen } from '../screens/Tab2Screen';
 
 import { StackNavigator } from './StackNavigator';
 import { colores } from '../theme/appTheme';
 import { Platform, Text } from 'react-native';
+import { TopTabNavigator } from './TopTabNavigator';
 
 
 export const Tabs = () => {
@@ -43,8 +44,8 @@ const TabsAndroid = () => {
         }}  
       />
       <BottomTabAndroid.Screen 
-        name="Tab2Screen" 
-        component={Tab2Screen}
+        name="TopTabNavigator" 
+        component={TopTabNavigator}
         options={{
           title: 'Tab2',
           tabBarColor: '#694FAB',
@@ -120,7 +121,7 @@ const TabsIOS = () => {
       {/* De esta forma se puede agregar un icono con tabBarIcon y pasarle algunas propiedades con una función.*/}
       {/* <BottomTabIOS.Screen name="Tab1Screen" options={{title: 'Tab1', tabBarIcon: (props) => <Text style={{color: props.color, fontSize: props.size}}>Wena</Text>}} component={Tab1Screen} /> */}
       <BottomTabIOS.Screen name="Tab1Screen" options={{title: 'Tab1'}} component={Tab1Screen} />
-      <BottomTabIOS.Screen name="Tab2Screen" options={{ title: 'Tab2'}} component={Tab2Screen} />
+      <BottomTabIOS.Screen name="TopTabNavigator" options={{ title: 'Tab2'}} component={TopTabNavigator} />
       <BottomTabIOS.Screen name="StackNavigator" options={{ title: 'Stack'}} component={StackNavigator} />
     </BottomTabIOS.Navigator>
   );

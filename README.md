@@ -797,3 +797,77 @@ const BottomTabIOS = createBottomTabNavigator();
 const TabsIOS = () => {...}
 ````
 ----
+### 5.- Material Top Tab Navigator
+En este punto se implementará un Top Tab Navigator, para mostrar diferentes elementos.
+
+Pasos a Seguir: 
+* Instalar [Material Top Tabs Navigator](https://reactnavigation.org/docs/material-top-tab-navigator/).
+* Crear 3 componentes Screen, para mostrarlos en el __Top Tab Navigator__.
+* Crear un archivo para agregar la configuración en `navigator/TopTabNavigator.tsx` segun la [documentación](https://reactnavigation.org/docs/material-top-tab-navigator/#installation).
+* Se implementa el __Top Tab Navigator__ en el __Bottom Tabs__, tanto en el de Android como el de IOS.
+* En el caso de __presentar problemas__ instalar lo siguiente; `yarn add react-native-pager-view`. _(En el caso de no tener ningun problema saltar este paso)_
+
+En `screen/ChatScreen.tsx`
+* Crear 3 componentes basicos para mostrarlo en el __Top Tab Navigator__. _(Se crearon ChatScreen, ContactsScreen y AlbumsScreen)_
+````
+import React from 'react'
+import { View, Text } from 'react-native';
+
+export const ChatScreen = () => {
+  return (
+    <View>
+        <Text>ChatScreen</Text>
+    </View>
+  )
+}
+````
+En `navigator/TopTabNavigator.tsx`
+* Se importa React, `createMaterialTopTabNavigator` segun la documentación y los 3 componentes que se crearon.
+````
+import React from 'react';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { ChatScreen } from '../screens/ChatScreen';
+import { ContactsScreen } from '../screens/ContactsScreen';
+import { AlbumsScreen } from '../screens/AlbumsScreen';
+````
+* Se implementa el TopTabNavigator segun la documentación.
+* Ademas se agregan los 3 componentes creados `ChatScreen`, `ContactsScreen` y `AlbumsScreen`.
+````
+const Tab = createMaterialTopTabNavigator();
+
+export const TopTabNavigator = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Chat" component={ChatScreen} />
+      <Tab.Screen name="Contacts" component={ContactsScreen} />
+      <Tab.Screen name="Albums" component={AlbumsScreen} />
+    </Tab.Navigator>
+  );
+}
+````
+En `navigator/Tabs.tsx`
+* Importamos el `TopTabNavigator`.
+````
+...
+import { TopTabNavigator } from './TopTabNavigator';
+````
+* Estamos en la componente `TabsAndroid`.
+* Remplazamos el `Tab2Screen` por `TopTabNavigator`.
+````
+<BottomTabAndroid.Screen 
+  name="TopTabNavigator" 
+  component={TopTabNavigator}
+  options={{
+    title: 'Tab2',
+    tabBarColor: '#694FAB',
+    tabBarIcon: ({color}) => (
+      <MaterialCommunityIcons name='home' color={color}  size={20}/>
+    ),
+  }}  
+/>
+````
+* En el componente `TabsIOS`, remplazamos `Tab2Screen` por `TopTabNavigator`.
+````
+<BottomTabIOS.Screen name="TopTabNavigator" options={{ title: 'Tab2'}} component={TopTabNavigator} />
+````
+----
