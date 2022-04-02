@@ -805,7 +805,7 @@ Pasos a Seguir:
 * Crear 3 componentes Screen, para mostrarlos en el __Top Tab Navigator__.
 * Crear un archivo para agregar la configuración en `navigator/TopTabNavigator.tsx` segun la [documentación](https://reactnavigation.org/docs/material-top-tab-navigator/#installation).
 * Se implementa el __Top Tab Navigator__ en el __Bottom Tabs__, tanto en el de Android como el de IOS.
-* En el caso de __presentar problemas__ instalar lo siguiente; `yarn add react-native-pager-view`. _(En el caso de no tener ningun problema saltar este paso)_
+* En el caso de __presentar problemas__ instalar lo siguiente; `yarn add react-native-pager-view`. _(En el caso de no tener ningun problema saltar este paso, esto es recomendado al momento de construir o replicar los mismos elementos de este repositorio)_
 
 En `screen/ChatScreen.tsx`
 * Crear 3 componentes basicos para mostrarlo en el __Top Tab Navigator__. _(Se crearon ChatScreen, ContactsScreen y AlbumsScreen)_
@@ -869,5 +869,80 @@ import { TopTabNavigator } from './TopTabNavigator';
 * En el componente `TabsIOS`, remplazamos `Tab2Screen` por `TopTabNavigator`.
 ````
 <BottomTabIOS.Screen name="TopTabNavigator" options={{ title: 'Tab2'}} component={TopTabNavigator} />
+````
+----
+### 6.- Personalizar Material Top Tab Navigator
+En este punto se personalizará el __Material Top Tabs Navigator__.
+
+Pasos a Seguir:
+* Utilizamos algunas de las propiedades en `navigator/TopTabNavigator.tsx` para darle una personalización.
+
+En `navigator/TopTabNavigator.tsx`
+* Importamos algunos elementos nuevos, como `useSafeAreaInsets` este Hook es para evitar el notch en el caso de presentar uno como en los iPhone, `colores` el cual es unos estilos de colores que se establecieron anteriormente y Text de React Native.
+````
+...
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colores } from '../theme/appTheme';
+import { Text } from 'react-native';
+````
+* Para evitar el notch de los iphone se agrega el hook `useSafeAreaInsets` desestructurando el `top`.
+````
+export const TopTabNavigator = () => {
+
+  const { top } = useSafeAreaInsets();
+  ...}
+````
+* Aquí se agregaron algunos de los estilos para el __Top Tap Navigator__.
+  * `paddingTop: top` en el caso que se tenga un notch se creará un padding.
+  * Con `sceneContainerStyle={{backgroundColor: 'white'}}` las pantallas sin contenido el fondo sera blanco.
+* Se utiliza `screenOptions` para las diferentes opciones visuales, tambien recibiendo por paramentro `route` que se utilizará posteriormente.
+  * `tabBarPressColor: colores.primary` para cuando se presionen los botones del Top Tab se mueste con un color.
+  * `tabBarShowIcon: true` esta propiedad la dejamos en ese estado para proximamente mostrar los iconos.
+  * En `tabBarIndicatorStyle` le damos un `backgroundColor` para cuando la pestaña que este seleccionada se le muestre un borde inferior con el color desado.
+  * Con `tabBarStyle` le agregamos algunos estilos a la barra, una transparencia y elevacion en 0, para que no se vea ninguna sombra o separación. _(De los Top Tab con el contenido que se muestre)_
+  * Se utiliza `tabBarIcon` para mostrar los iconos.
+````
+<Tab.Navigator
+  style={{
+    paddingTop: top
+  }}
+  sceneContainerStyle={{
+    backgroundColor: 'white'
+  }}
+  screenOptions={ ({ route }) => ({
+    tabBarPressColor: colores.primary,
+    tabBarShowIcon: true,
+    tabBarIndicatorStyle:{
+      backgroundColor: colores.primary,
+    },
+    tabBarStyle:{ 
+      shadowColor: 'transparent',
+      elevation: 0,
+      // backgroundColor: '#694FAB',
+    },
+    tabBarIcon : ({color, focused})  => {
+
+      let iconName: string = '';
+
+      switch (route.name) {
+        
+        case 'Chat':
+          iconName = 'CH'
+          break;
+        case 'Contacts':
+          iconName = 'CO'
+          break;
+        case 'Albums':
+          iconName = 'AL'
+          break;
+      
+        default:
+          break;
+      }
+
+      return <Text style={{color}}>{ iconName }</Text>
+    },
+  })}
+>
 ````
 ----

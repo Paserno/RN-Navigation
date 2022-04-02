@@ -17,7 +17,8 @@ export const MenuLateral = () => {
       drawerContent={ (props) => <MenuInterno { ...props }/>}
       screenOptions={{
         drawerType: width >= 768 ? 'permanent' : 'front',
-        headerShown: width >= 768 ? false : true,
+        headerShown: false,
+        // headerShown: width >= 768 ? false : true,
         headerStyle: {
           elevation: 0,
           shadowColor: 'transparent' // Para IOS
