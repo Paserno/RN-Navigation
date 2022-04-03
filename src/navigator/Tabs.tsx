@@ -1,7 +1,9 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 
 import { Tab1Screen } from '../screens/Tab1Screen';
@@ -39,7 +41,7 @@ const TabsAndroid = () => {
           tabBarLabel: 'Tab1',
           tabBarColor: '#009387',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name='home' color={color}  size={20}/>
+            <Icon name='images' color={color}  size={20}/>
           ),
         }}  
       />
@@ -50,7 +52,7 @@ const TabsAndroid = () => {
           title: 'Tab2',
           tabBarColor: '#694FAB',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name='home' color={color}  size={20}/>
+            <Icon name='logo-youtube' color={color}  size={20}/>
           ),
         }}  
       />
@@ -61,7 +63,7 @@ const TabsAndroid = () => {
           title: 'Stack',
           tabBarColor: '#131313',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name='home' color={color}  size={20}/>
+            <Icon name='home' color={color}  size={20}/>
           ),
         }}  
       />

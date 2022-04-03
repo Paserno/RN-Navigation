@@ -946,3 +946,118 @@ export const TopTabNavigator = () => {
 >
 ````
 ----
+### 7.- Instalar Iconos
+En este punto se Instalaran los inconos y se realizaran configuraciónes para que los iconos sean mostrado en las diferentes plataformas.
+
+Pasos a Seguir:
+* Para la instalación de Iconos es recomendado instalar lo siguiente:
+  * `yarn add react-native-vector-icons` (_Paquetes de iconos usando Yarn para la instalación_)
+  * `yarn add -D @types/react-native-vector-icons` (_En el caso de estar trabajando con __TypeScript__._)
+  * `npx react-native link react-native-vector-icons` (_[Opcion Recomendada para mostrar Iconos en IOS](https://github.com/oblador/react-native-vector-icons#option-with-react-native-link)_)
+* Luego de haber instalado los diferentes elementos es hora de realizar la instalación manual tanto en Android como en IOS.
+  * Intrucciones de Android Realizadas en este proyecto __[Clic Aquí](https://github.com/oblador/react-native-vector-icons#option-with-gradle-recommended)__, mencionar que se personalizo los paquetes de iconos para solo usar __[Ionicons](https://ionic.io/ionicons)__
+  * En el caso de IOS solo se realizo las __[Opciones con `react-native link` ](https://github.com/oblador/react-native-vector-icons#option-with-react-native-link)__, ya que no contamos hoy con un dispositivo Mac OS, en el caso de tenerlo se podrian hacer las diferentes _[Opciones](https://github.com/oblador/react-native-vector-icons#ios)_.
+* Una vez toda la configuración de iconos lista se procedio a llenar la aplicación con iconos donde antes no habian.
+  * Comenzando con `screen/Tab1Screen.tsx`.
+  * `navigator/Tabs.tsx` 
+  * `navigator/TopTabNavigator.tsx`
+  * `screens/Pagina1Screen.tsx`
+  * `navigator/MenuLateral.tsx`
+  * `screens/SettingsScreen.tsx`
+
+En `screen/Tab1Screen.tsx`
+* Se importaron los Iconos de Ionicons.
+````
+...
+import Icon from 'react-native-vector-icons/Ionicons';
+````
+* Invocando en el componente varios iconos con un tamaño y color.
+````
+<Text>
+  <Icon name="airplane-outline" size={80} color={ colores.primary } />
+  <Icon name="airplane" size={80} color={ colores.primary } />
+  <Icon name="home" size={80} color={ colores.primary } />
+  <Icon name="home-outline" size={80} color={ colores.primary } />
+  <Icon name="chatbox-ellipses-outline" size={80} color={ colores.primary } />
+  <Icon name="chatbox-ellipses" size={80} color={ colores.primary } />
+  <Icon name="duplicate-outline" size={80} color={ colores.primary } />
+  <Icon name="heart-outline" size={80} color={ colores.primary } />
+  <Icon name="heart" size={80} color={ colores.primary } />
+  <Icon name="images-outline" size={80} color={ colores.primary } />
+  <Icon name="images" size={80} color={ colores.primary } />
+  <Icon name="mic" size={80} color={ colores.primary } />
+</Text>
+````
+En `navigator/Tabs.tsx`
+* En cada Bottom Tab agregando un icono personalizado.
+````
+<BottomTabAndroid.Screen 
+  name="Tab1Screen" 
+  component={Tab1Screen}
+  options={{
+    tabBarLabel: 'Tab1',
+    tabBarColor: '#009387',
+    tabBarIcon: ({color}) => (
+      <Icon name='images' color={color}  size={20}/>
+    ),
+  }}  
+/>
+````
+En `navigator/TopTabNavigator.tsx`
+* En el case que tenia para mostrar los _"Iconos"_ que se tenia, ahora se remplazaron con nombres de iconos para agregarlos al retorno. 
+````
+tabBarIcon : ({color, focused})  => {
+  let iconName: string = '';
+
+  switch (route.name) {
+
+    case 'Chat':
+      iconName = 'chatbox-ellipses-outline'
+      break;
+    case 'Contacts':
+      iconName = 'people-outline'
+      break;
+    case 'Albums':
+      iconName = 'albums-outline'
+      break;
+
+    default:
+      break;
+  }
+  return <Icon name={iconName} size={23} color={color} />
+},
+````
+En `screens/Pagina1Screen.tsx`
+* En el __useEffect__ se remplazo el `botton` que se tenia por un `TouchableOpacity`.
+* Para luego agregarle algunas propiedades y finalmente el icono de menú. _(Este igual agregandolo en `screens/SettingsScreen.tsx`)_
+````
+useEffect(() => {
+  navigation.setOptions({
+    headerLeft: () => (
+      <TouchableOpacity
+        style={{marginLeft: 10}}
+        onPress={ () => navigation.toggleDrawer() }
+      >
+        <Icon name="menu" size={35} color="black" />
+      </TouchableOpacity>
+    ) 
+  })
+}, [])
+````
+En `navigator/MenuLateral.tsx`
+* En los botones `TouchableOpacity` tan solo se le agrego el icono, ademas de un estilo adicional, este es `flexDirection: 'row'`.
+````
+<TouchableOpacity 
+  style={{
+    ...styles.menuBoton,
+    flexDirection: 'row'
+  }}
+  onPress={ () => navigation.navigate('Tabs') }
+>
+  <Icon name="albums-sharp" size={25}/>
+  <Text style={ styles.menuTexto }>  Tabs</Text>
+</TouchableOpacity>
+````
+De esta manera agregandole iconos a toda la aplicación.
+
+----
