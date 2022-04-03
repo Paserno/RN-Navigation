@@ -9,11 +9,17 @@ Elementos utilizados:
 
   * __[Bottom Tabs Navigator](https://reactnavigation.org/docs/bottom-tab-navigator/)__
   * __[Material Bottom Tab Navigator](https://reactnavigation.org/docs/material-bottom-tab-navigator)__ _(OPCIONAL)_
+  * __[Material Top Tab Navigator](https://reactnavigation.org/docs/material-top-tab-navigator)__
   
 
 
 Solución Problema.
 * __[React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/)__ En uso de __Drawer Navigator__
+* __[RN Vector Icons](https://github.com/oblador/react-native-vector-icons#readme)__ Como configurar para los diferentes dispositivos, tanto para Android como IOS
+
+
+__[Elementos de Navegación Tabs]()__
+
 ----
 Recordar que si se desea ejecutar esta aplicación, deben de reconstruir los módulos de node así:
 ````
