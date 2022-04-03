@@ -18,7 +18,7 @@ Solución Problema.
 * __[RN Vector Icons](https://github.com/oblador/react-native-vector-icons#readme)__ Como configurar para los diferentes dispositivos, tanto para Android como IOS
 
 
-__[Elementos de Navegación Tabs]()__
+__[Elementos de Navegación Tabs](https://github.com/Paserno/RN-Navigation#elementos-de-navegación-tabs)__
 
 ----
 Recordar que si se desea ejecutar esta aplicación, deben de reconstruir los módulos de node así:
@@ -1010,7 +1010,7 @@ En `navigator/Tabs.tsx`
 />
 ````
 En `navigator/TopTabNavigator.tsx`
-* En el case que tenia para mostrar los _"Iconos"_ que se tenia, ahora se remplazaron con nombres de iconos para agregarlos al retorno. 
+* Los _"Iconos"_ que se tenía, ahora se remplazan con nombres de iconos de Ionicons para agregarlos a asignarlo a la variable y luego se muestre en el retorno, con un tamaño y color. 
 ````
 tabBarIcon : ({color, focused})  => {
   let iconName: string = '';
@@ -1034,7 +1034,7 @@ tabBarIcon : ({color, focused})  => {
 },
 ````
 En `screens/Pagina1Screen.tsx`
-* En el __useEffect__ se remplazo el `botton` que se tenia por un `TouchableOpacity`.
+* En el __useEffect__ se remplazo el `botton` que se tenía por un `TouchableOpacity`.
 * Para luego agregarle algunas propiedades y finalmente el icono de menú. _(Este igual agregandolo en `screens/SettingsScreen.tsx`)_
 ````
 useEffect(() => {
