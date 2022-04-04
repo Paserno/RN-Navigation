@@ -1149,3 +1149,34 @@ const App = () => {
 }
 ````
 ----
+### 2.- Consumir el Context - AuthState
+En este punto se consumirá el estado que se tiene en el context en un componente screen.
+
+Pasos a Seguir:
+* Agregar __useContext__ en el componente screen `screens/SettingScreen.tsx`.
+
+En `screens/SettingScreen.tsx`
+* Importamos el __useContext__.
+* Importar el contexto de `AuthContext`.
+````
+import React, { useContext, useEffect } from 'react'
+import { AuthContext } from '../context/AuthContext';
+...
+````
+* Establecemos el context y desestructuramos `authState`.
+````
+const { authState } = useContext( AuthContext );
+````
+* Se implementa en `<Text>` los elementos que se tienen en el context, para ser mostrado.
+````
+return (
+  <View style={{
+      ...styles.globalMargin,
+      marginTop: insets.top + 20
+  }}>
+      <Text style={styles.title}>Settings Screen</Text>
+      <Text>{ JSON.stringify( authState, null, 4 ) }</Text>
+  </View>
+)
+````
+----
