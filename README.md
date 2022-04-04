@@ -1125,4 +1125,27 @@ export const AuthProvider = ({ children }: any ) => {
   )
 }
 ````
+En `App.tsx`
+* Creamos otro componente funcional llamado __AppState__ que tendra por parametro `{ children }`.
+````
+const AppState = ({ children }: any) => {
+  return (
+    <AuthProvider>
+      { children }
+    </AuthProvider>
+  )
+}
+````
+* Finalmente agregamos nuestro recién creado componente funcional, encerrando `<MenuLateral />` y dentro de `<NavigationContainer>` para respetar la documentación de __React Navigator__, de esta manera manejaremos un estado global en nuestra aplicación.
+````
+const App = () => {
+  return (
+    <NavigationContainer>
+      <AppState>
+        <MenuLateral />
+      </AppState>
+    </NavigationContainer>
+  )
+}
+````
 ----
