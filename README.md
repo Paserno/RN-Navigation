@@ -1067,3 +1067,62 @@ En `navigator/MenuLateral.tsx`
 De esta manera agregandole iconos a toda la aplicación.
 
 ----
+# Context y Estado Global
+En esta sección se verá todo relacionado a los estados de una aplicación, especialmente los globales, comunicación entre diferentes componentes, para esto se utilizará elementos propios de __React__ ademas de el tipado con __TypeScript__.
+
+
+### 1.- Creación del Context con TypeScript
+En este paso se creará el primer context.
+
+Pasos a Seguir:
+* Crear el primer context de la aplicación en `context/AthContext.tsx`
+* Importarlo el context en `App.tsx` para su uso.
+
+En `context/AthContext.tsx`
+* Realizamos la importación de React y `createContext`.
+````
+import React, { createContext } from 'react';
+````
+* Se crea una __interface__ para indicar como sera el tipado del estado inicial.
+````
+export interface AuthState {
+  isLoggedIn: boolean;
+  username?: string;
+  favoriteIcon?: string;
+}
+````
+* Creamos el estado inicial que utilizará en el context.
+````
+export const authInitialState: AuthState = {
+  isLoggedIn: false,
+  username: undefined,
+  favoriteIcon: undefined,
+}
+````
+* Se crea una __interface__ para definir el tipado del context.
+````
+export interface AuthContextProps {
+    authState: AuthState;
+    signIn: () => void;
+}
+````
+* Se crea el context, el cual se le pasa la __interface__.
+````
+export const AuthContext = createContext({} as AuthContextProps );
+````
+* Se crea el componente proveedor de estado, recibiendo por parametro `{ children }`.
+* Mandamos el estado inicial ademas de una función vacía por el momento.
+````
+export const AuthProvider = ({ children }: any ) => {
+
+  return (
+      <AuthContext.Provider value={{
+          authState: authInitialState,
+          signIn: () => {}
+      }}>
+          { children }
+      </AuthContext.Provider>
+  )
+}
+````
+----
