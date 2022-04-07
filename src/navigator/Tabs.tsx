@@ -103,20 +103,21 @@ const TabsIOS = () => {
             switch (route.name) {
               
               case 'Tab1Screen':
-                iconName = 'T1'
+                iconName = 'images'
                 break;
               case 'Tab2Screen':
-                iconName = 'T2'
+                iconName = 'logo-youtube'
                 break;
               case 'StackNavigator':
-                iconName = 'ST'
+                iconName = 'home'
                 break;
             
               default:
                 break;
             }
 
-            return <Text style={{color}}>{ iconName }</Text>
+            // return <Text style={{color}}>{ iconName }</Text>
+            return <Icon name={iconName} color={color}  size={20}/>
           },
       })}
     >
