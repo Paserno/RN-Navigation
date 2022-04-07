@@ -19,6 +19,7 @@ Solución Problema.
 
 
 __[Elementos de Navegación Tabs](https://github.com/Paserno/RN-Navigation#elementos-de-navegación-tabs)__
+__[Context y Estado Global](https://github.com/Paserno/RN-Navigation#elementos-de-navegación-tabs)__
 
 ----
 Recordar que si se desea ejecutar esta aplicación, deben de reconstruir los módulos de node así:
@@ -1178,5 +1179,219 @@ return (
       <Text>{ JSON.stringify( authState, null, 4 ) }</Text>
   </View>
 )
+````
+----
+### 3.- Estado Global - useReducer
+En este punto se crará el useReducer con sus diferentes elementos, para luego ser invocado por los diferentes componentes de la aplicación.
+
+Pasos a Seguir:
+* Crear Reducer en `context/authReducer.tsx`.
+* Implementar useReducer y crear los disparadores en `context/AithContext.tsx`.
+* Crear botones de Sign-In y Log-Out en `screens/ContactsScreen.tsx`.
+* Crear componente __TouchableIcon__ en `components/TouchableIcon.tsx`.
+* Modificar los Iconos de __Tab1Screen__ en `screens/Tab1Screen.tsx`.
+* Agregar icono en `screen/SettingsScreen.tsx` para mostrar el icono favorito que se seleccionó en el componente __Tab1Screen__. 
+* Crear un __useEffect__ que modifique el `Username` cada vez que es renderizado el componente que esta en `screens/PersonasScreen.tsx`.
+
+En `context/authReducer.tsx`
+* Se importa el contexto.
+````
+import { AuthState } from './AuthContext';
+````
+* Se crea el tipado con las diferentes opciones que se utilizaran en el reducer.
+````
+type AuthAction = 
+    | { type: 'SignIn' } 
+    | { type: 'LogOut' }
+    | { type: 'ChangeFavIcon', payload: string }
+    | { type: 'ChangeUsername', payload: string }
+````
+* Se crean las diferentes opciones del reducer con un switch.
+  * Opción `SignIn`, cambia el estado de `isLoggedIn` en true, ademas de agrega un `username`.
+  * Opción `LogOut`, cambia el estado de `isLoggedIn` en false, ademas de cambiar todas las demas propiedades en `undefined`.
+  * Opción `ChangeFavIcon`, conserva el estado que se tiene, ademas de cambiar el estado de `favoriteIcon` por lo que venga en el payload de la acción.
+  * Opción `ChangeUsername`, conserva el estado que se tiene, ademas de cambiar el esdado de `username` por lo que venga en el payload de la acción.
+````
+export const authReducer = (state: AuthState, action: AuthAction): AuthState => {
+
+    switch (action.type) {
+        case 'SignIn':
+            return {
+                ...state,
+                isLoggedIn: true,
+                username: 'no-username'
+            }
+
+        case 'LogOut':
+            return {
+                ...state,
+                isLoggedIn: false,
+                username: undefined,
+                favoriteIcon: undefined,
+            }
+
+        case 'ChangeFavIcon':
+            return {
+                ...state,
+                favoriteIcon: action.payload
+            }
+
+        case 'ChangeUsername':
+            return {
+                ...state,
+                username: action.payload
+            }
+    
+        default:
+            return state;
+    }
+}
+````
+En `context/AithContext.tsx`
+* Se agregan 3 nuevos elementos en la interface, `logOut`,`changeFavoriteIcon` y `changeUsername`.
+````
+export interface AuthContextProps {
+    authState: AuthState;
+    signIn: () => void;
+    logOut: () => void;
+    changeFavoriteIcon: ( iconName: string ) => void;
+    changeUsername: ( username: string ) => void;
+}
+````
+* En `AuthProvider` se agrega un useReducer, que le pasaremos el `authReducer` recién creado y `authInitialState`.
+* Creamos diferentes disparadores de acciones como `signIn`,`logOut`, `changeFavoriteIcon` y `changeUsername` los ultimos dos recibiran parametros que serán enviados en el payload. 
+* Finalmente en el return se enviará todos los disparadores de acciones.
+  
+````
+export const AuthProvider = ({ children }: any ) => {
+    const [authState, dispatch] = useReducer( authReducer, authInitialState);
+
+    const signIn = () => {
+        dispatch({ type: 'SignIn' });
+    }
+
+    const logOut = () => {
+        dispatch({ type: 'LogOut' });
+    }
+
+    const changeFavoriteIcon = ( iconName: string ) => {
+        dispatch({ type: 'ChangeFavIcon', payload: iconName})
+    }
+
+    const changeUsername = ( username: string ) => {
+        dispatch({ type: 'ChangeUsername', payload: username})
+    }
+    
+    return (
+        <AuthContext.Provider value={{
+            authState,
+            signIn,
+            logOut,
+            changeFavoriteIcon,
+            changeUsername
+        }}>
+            { children }
+        </AuthContext.Provider>
+    )
+}
+````
+En `screens/ContactsScreen.tsx`
+* Se importa el __useContext__.
+* En el componente __ContactsScreen__ se implementa __useContext__, que se desestructura 2 funciones disparadoras y el estado `{ signIn, logOut, authState }`.
+````
+const { signIn, logOut, authState } = useContext( AuthContext );
+````
+* En el return del componente se utiliza un el operador ternario, para mostrar botón de `Log Out` y `Sign In` cuando se presiona el botón se llamaran las funciones disparadoras.
+````
+{
+  ( authState.isLoggedIn ) 
+    ? <Button title='Log Out' onPress={ logOut }/>
+    : <Button title='Sign In' onPress={ signIn }/>
+}
+````
+En `components/TouchableIcon.tsx`
+* Se importan diferentes elementos que se utilizarán en este componente nuevo.
+````
+import React, { useContext } from 'react'
+import { TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { colores } from '../theme/appTheme';
+import { AuthContext } from '../context/AuthContext';
+````
+* Se crea una inteface que será de las props de la función que se creará. 
+````
+interface Props {
+  iconName: string;
+}
+````
+* Se crea el componente __TouchableIcon__ que se recibirá por parametros `iconName`.
+* Se utiliza el useContext que el contexto viene de `AuthContext` y desestructurando `changeFavoriteIcon`.
+* En el return del componente se utiliza un `<TouchableOpacity>` cuando es presionado se manda a la función disparadora `changeFavoriteIcon` lo que es recibido por parametro `iconName`.
+* Se invoca un Icon que le mandamos por el `name` el valor que se recibirá por parametro `iconName`. 
+````
+export const TouchableIcon = ({ iconName }: Props) => {
+
+  const { changeFavoriteIcon } = useContext(AuthContext)
+
+  return (
+    <TouchableOpacity
+        onPress={ () => changeFavoriteIcon(iconName)}
+    >
+      <Icon 
+        name={ iconName }
+        size={80} 
+        color={ colores.primary } />
+    </TouchableOpacity>
+  )
+}
+````
+En `screens/Tab1Screen.tsx`
+* Importamos el componente que recién se creo.
+````
+import { TouchableIcon } from '../components/TouchableIcon';
+````
+* Se remplaza el `<Icon>` por `<TouchableIcon>` para enviarle por parametro el nomnbre del icono de la imagen a mostrar.
+````
+<Text> 
+  <TouchableIcon iconName="airplane-outline" />
+  <TouchableIcon iconName="airplane" />
+  <TouchableIcon iconName="home" />
+  <TouchableIcon iconName="home-outline" />
+  <TouchableIcon iconName="chatbox-ellipses-outline" />
+  <TouchableIcon iconName="chatbox-ellipses" />
+  <TouchableIcon iconName="duplicate-outline" />
+  <TouchableIcon iconName="heart-outline" />
+  <TouchableIcon iconName="heart" />
+  <TouchableIcon iconName="images-outline" />
+  <TouchableIcon iconName="images" />
+  <TouchableIcon iconName="mic" />
+</Text>
+````
+En `screen/SettingsScreen.tsx`
+* Se importa __useContext__ para luego desestructurar `authState` del contexto `AuthContext`.
+````
+const { authState } = useContext( AuthContext );
+````
+* Realizamos una validación en el caso de que se tenga algun valor `authState.favoriteIcon` se cumplira la condición logica para mostrar el Icon por pantalla.
+````
+{
+  (authState.favoriteIcon) && (
+      <Icon
+          name={ authState.favoriteIcon }
+          size={150}
+          color={ colores.primary }
+      />)         
+}
+````
+En `screens/PersonasScreen.tsx`
+* Se importa el contexto.
+````
+import { AuthContext } from '../context/AuthContext';
+````
+* Se crea un nuevo __useEffect__ en el componente screen __PersonasScreen__, para disparar la función `changeUsername` que le mandamos por parametros `params.nombre` que es donde viene el nombre que recibe el componente, para proximamente mostrarloe en el componente __SettingsScreen__.
+````
+useEffect(() => {
+  changeUsername(params.nombre)
+}, [])
 ````
 ----
