@@ -19,7 +19,8 @@ Solución Problema.
 
 
 __[Elementos de Navegación Tabs](https://github.com/Paserno/RN-Navigation#elementos-de-navegación-tabs)__
-__[Context y Estado Global](https://github.com/Paserno/RN-Navigation#elementos-de-navegación-tabs)__
+
+__[Context y Estado Global](https://github.com/Paserno/RN-Navigation#context-y-estado-global)__
 
 ----
 Recordar que si se desea ejecutar esta aplicación, deben de reconstruir los módulos de node así:
