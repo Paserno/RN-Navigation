@@ -31,7 +31,7 @@ En el caso de tener Android Studio con un dispositivo virtual montado para ejecu
 ````
 npx react-native run-android
 ````
-> __Elemento Posterior 👀:__ __[...](https://github.com/Paserno/RN-Calculadora)__
+> __Elemento Posterior 👀:__ __[PeliApp](https://github.com/Paserno/RN-PeliApp)__
 ----
 ### 1.- React Navigator - Stack
 En este punto se realiza la configuración de __[React Navigation](https://reactnavigation.org/docs/getting-started)__.
